@@ -1,10 +1,12 @@
 import React from 'react';
 import "./Sidebar.css";
 import { SidebarData } from "../../data/SidebarData";
+import ViracoposLogo from '../../view/assets/img/viracopos-logo.svg';
 
-function Sidebar() {
+export function Sidebar() {
     return (
         <div className="Sidebar">
+            <img className='SidebarImage' src={ViracoposLogo} alt='Republic logo'></img>
             <ul className='SidebarList'>
                 {SidebarData.map((value, key) => {
                     return (
@@ -23,5 +25,3 @@ function Sidebar() {
 
     )
 }
-
-export default Sidebar

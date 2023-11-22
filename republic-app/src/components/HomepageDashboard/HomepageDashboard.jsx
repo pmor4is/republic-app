@@ -2,7 +2,9 @@ import React from 'react'
 
 function HomepageDashboard() {
   return (
-    <div>HomepageDashboard</div>
+    <div className='HomepageContent'>
+        
+    </div>
   )
 }
 
