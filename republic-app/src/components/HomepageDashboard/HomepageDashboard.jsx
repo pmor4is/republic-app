@@ -1,11 +1,9 @@
 import React from 'react'
 
-function HomepageDashboard() {
+export function HomepageDashboard() {
   return (
     <div className='HomepageContent'>
-        
+        <h1>Dashboard</h1>
     </div>
   )
 }
-
-export default HomepageDashboard

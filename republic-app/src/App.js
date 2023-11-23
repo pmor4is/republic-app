@@ -6,7 +6,8 @@ function App() {
   return (
     <div className="AppBody">
       <Sidebar />
-      <div>
+      <div className="AppContent">
+
         <AppRoutes />
       </div>
     </div>

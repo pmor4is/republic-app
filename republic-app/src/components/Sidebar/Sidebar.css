@@ -1,17 +1,18 @@
 .Sidebar {
     background-color: #2F4050;
-    width: 300px;
+    width: 15vw;
     height: 100vh;
     display: flex;
     flex-direction: column;
 }
-.SidebarImage {
+.SidebarImageContainer{
     display: grid;
     place-items: center;
-    margin: 0px;
-    padding: 0px;
-    width: 20%;
-    height: 20%;
+}
+.SidebarImage {
+    display: grid;
+    width: 60%;
+    height: 60%;
 }
 .SidebarList {
     padding: 0;
