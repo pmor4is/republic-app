@@ -4,14 +4,15 @@
     min-height: 100vh;
     /* max-height: 100vh; */
     /* min-width: 80vw; */
-    min-width: 100%;
+    width: 100%;
 
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: aqua;
 }
 
 .Homepage-content {
     display: flex;
     flex-direction: column;
-}
+}   

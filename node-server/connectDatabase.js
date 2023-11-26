@@ -13,7 +13,7 @@ const connectDatabase = async () => {
             if (err) {
                 return console.error('Error executing the query. Error: ',err);
             }
-            console.log(result.row[0]);
+            console.log(result.rows[0]);
         });
     })
 }

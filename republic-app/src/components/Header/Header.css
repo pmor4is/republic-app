@@ -2,6 +2,6 @@
     display: flex;
     /* Olhar de acordo com o width da Sidebar */
     min-width: 100%;
-    /* min-width: 100vw; */
     background-color: #2F4050;
+    /* margin: 20px; */
 }
