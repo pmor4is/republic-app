@@ -1,0 +1,15 @@
+.MarketForm-body {
+    
+}
+.MarketForm {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
+.MarketForm input {
+    display: flex;
+    margin: 10px;
+    border-radius: 10px;
+    border: 0.5;
+    height: 3vh;
+}
