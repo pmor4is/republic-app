@@ -12,7 +12,7 @@ export function MarketForm(props) {
     const [pDescription, setPDescription] = useState("");
     const [pQuantity, setPQuantity] = useState("");
     const navigate = useNavigate();
-    const state  = useLocation();
+    const {state}  = useLocation();
 
     function cleanData() {
         setPName("");
@@ -21,21 +21,22 @@ export function MarketForm(props) {
     }
 
     useEffect(() => {
-        console.log(Object.keys(props));
+        console.log( "state:",  state);
+        if (state.id > 0) {
+            console.log("veio com parametro");
+            setPName(state.productName);
+            setPDescription(state.productDescription);
+            setPQuantity(state.productQuantity);
+        } else {
+            console.log("veio sem parametro");
+        }
         
-        // Se tiver algum registro inicial em props.route.params, então são setados os conteúdos vindos de Market para edição
-        // if (props.route.params) {
-        //     const { product } = props.route.params;
-        //     setPName(product.productname || "");
-        //     setPDescription(product.productdescription || "");
-        //     setPQuantity(product.productquantity || "");
-        // }
     }, [])
 
     function saveData(event) {
         event.preventDefault();
         if (pName !== "" && pDescription !== "" && pQuantity !== "") {
-            if (props.route.params) {
+            if (state.id > 0) {
                 axios.put(url + props.route.params.id, {
                     productName: pName,
                     productDescription: pDescription,

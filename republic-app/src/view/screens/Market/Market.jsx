@@ -36,16 +36,16 @@ export function Market() {
   }
 
   // Função para navegar para outra página ao clicar no botão
-  const navigateToForm = () => {
+  function navigateToForm (id, productName, productDescription, productQuantity) {
     // O caminho "/adicionar-produto" é um exemplo. Substitua pelo caminho desejado.
     navigate("/marketform", {
-      state:
-      {
-        market: market,
+      state: {
+        id: id,
         productName: productName,
         productDescription: productDescription,
-        productQuantity: productQuantity,
+        productQuantity: productQuantity, 
       }
+ 
     });
   };
 
@@ -60,7 +60,7 @@ export function Market() {
         <div>
           {/* Botão para criar novos produtos ou voltar, com renderização condicional dos inputs*/}
           {/* Adicionar novo produto */}
-          <button onClick={navigateToForm}>Adicionar novo produto</button>
+          <button onClick={() => navigateToForm(0, "", "", "")}>Adicionar novo produto</button>
 
           {/* Mapeamento da lista de produtos, transformando em cards */}
           {market ? market.map((item) => {
@@ -71,7 +71,7 @@ export function Market() {
                 <h3>Quantidade: {item.productquantity}</h3>
 
                 <div className='ProductCardButton'>
-                  <button onClick={navigateToForm}>
+                  <button onClick={()=>navigateToForm(item.id, item.productname, item.productdescription, item.productquantity)}>
                     <EditIcon />
                     Editar
                   </button>
