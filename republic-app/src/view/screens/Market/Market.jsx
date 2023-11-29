@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import './Market.css';
 import axios from 'axios';
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
 
 
 export function Market() {
   const navigate = useNavigate();
-
 
   // Controladores da API
   const [market, setMarket] = useState([]);
@@ -28,14 +28,26 @@ export function Market() {
       .then((response) => setMarket(response.data))
       .catch((error) => console.log(error))
   }, [url]);
-  
+
+  function deleteData(idToDelete) {
+    axios.delete(url + idToDelete)
+      .then(() => setMarket(market.filter((item) => item.id !== idToDelete)))
+      .catch((error) => console.log(error));
+  }
 
   // Função para navegar para outra página ao clicar no botão
-  const navigateToAddProduct = () => {
+  const navigateToForm = () => {
     // O caminho "/adicionar-produto" é um exemplo. Substitua pelo caminho desejado.
-    navigate("/marketform");
+    navigate("/marketform", {
+      state:
+      {
+        market: market,
+        productName: productName,
+        productDescription: productDescription,
+        productQuantity: productQuantity,
+      }
+    });
   };
-
 
   return (
     <div className='Market-content'>
@@ -43,26 +55,28 @@ export function Market() {
         <h1>Lista de compras</h1>
 
       </div>
-      <div className='Market-inventory'> 
-      <h1>Inventário</h1>
-      {/* Botão para criar novos produtos ou voltar, com renderização condicional dos inputs*/}
-      {/* Adicionar novo produto */}
-      
-          <div>
-          <button onClick={navigateToAddProduct}>Adicionar novo produto</button>
+      <div className='Market-inventory'>
+        <h1>Inventário</h1>
+        <div>
+          {/* Botão para criar novos produtos ou voltar, com renderização condicional dos inputs*/}
+          {/* Adicionar novo produto */}
+          <button onClick={navigateToForm}>Adicionar novo produto</button>
+
+          {/* Mapeamento da lista de produtos, transformando em cards */}
           {market ? market.map((item) => {
             return (
               <div className='ProductCard' key={item.id}>
-                <h1> {item.productname}</h1>
+                <h1>{item.productname}</h1>
                 <h2>Descrição: {item.productdescription}</h2>
                 <h3>Quantidade: {item.productquantity}</h3>
+
                 <div className='ProductCardButton'>
-                  <button>
+                  <button onClick={navigateToForm}>
                     <EditIcon />
                     Editar
                   </button>
-                  <button>
-                    <EditIcon />
+                  <button onClick={(e) => deleteData(item.id)}>
+                    <DeleteIcon />
                     Delete
                   </button>
                 </div>

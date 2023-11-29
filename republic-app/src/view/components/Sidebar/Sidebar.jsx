@@ -1,7 +1,7 @@
 import React from 'react';
 import "./Sidebar.css";
-import { SidebarData } from "../../data/SidebarData";
-import ViracoposLogo from '../../view/assets/img/viracopos-logo.svg';
+import {SidebarData} from '../../../data/SidebarData';
+import ViracoposLogo from '../../assets/img/viracopos-logo.svg';
 
 export function Sidebar() {
     return (

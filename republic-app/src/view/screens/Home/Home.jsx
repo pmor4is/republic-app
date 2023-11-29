@@ -1,7 +1,7 @@
 import React from 'react';
 import './Home.css';
-import { HomepageDashboard } from '../../../components/HomepageDashboard/HomepageDashboard';
-import { Header } from '../../../components/Header/Header';
+import { HomepageDashboard } from '../../components/HomepageDashboard/HomepageDashboard';
+import { Header } from '../../components/Header/Header';
 
 export function Home() {
   return (

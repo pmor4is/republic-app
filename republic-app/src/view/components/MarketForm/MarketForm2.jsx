@@ -1,42 +1,64 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 import './MarketForm.css';
 
-import axios from 'axios';
-
-export function MarketForm() {
-    // Controladores da API
-    const [market, setMarket] = useState([]);
-    const [id, setId] = useState("");
-    const [productName, setProductName] = useState("");
-    const [productDescription, setProductDescription] = useState("");
-    const [productQuantity, setProductQuantity] = useState("");
-    const navigate = useNavigate();
-
-    // Conexão com o backend criado na pasta node-server
-    // URL cadastrada na Vercel
+export function MarketForm(props) {
     const url = "https://republic-app.vercel.app/market/";
 
+    const [pmarket, setPMarket] = useState("");
+    const [pName, setPName] = useState("");
+    const [pDescription, setPDescription] = useState("");
+    const [pQuantity, setPQuantity] = useState("");
+    const navigate = useNavigate();
+    const location  = useLocation(
+
+    );
+
     function cleanData() {
-        setId("");
-        setProductName("");
-        setProductDescription("");
-        setProductQuantity("");
+        setPName("");
+        setPDescription("");
+        setPQuantity("");
     }
+
+    useEffect(() => {
+        console.log(Object.keys(props));
+        
+        // Se tiver algum registro inicial em props.route.params, então são setados os conteúdos vindos de Market para edição
+        // if (props.route.params) {
+        //     const { product } = props.route.params;
+        //     setPName(product.productname || "");
+        //     setPDescription(product.productdescription || "");
+        //     setPQuantity(product.productquantity || "");
+        // }
+    }, [])
 
     function saveData(event) {
         event.preventDefault();
-        if (productName !== "" && productDescription !== "" && productQuantity !== "") {
-            axios.post(url, {
-                productName: productName,
-                productDescription: productDescription,
-                productQuantity: (productQuantity ? productQuantity : null),
-            })
-                .then((response) => {
-                    console.log(response);
-                    navigateToMarket();
+        if (pName !== "" && pDescription !== "" && pQuantity !== "") {
+            if (props.route.params) {
+                axios.put(url + props.route.params.id, {
+                    productName: pName,
+                    productDescription: pDescription,
+                    productQuantity: (pQuantity ? pQuantity : null),
                 })
-                .catch((error) => console.log(error));
+                    .then((response) => {
+                        console.log(response);
+                        navigateToMarket();
+                    })
+            } else {
+                axios.post(url, {
+                    productName: pName,
+                    productDescription: pDescription,
+                    productQuantity: (pQuantity ? pQuantity : null),
+                })
+                    .then((response) => {
+                        console.log(response);
+                        navigateToMarket();
+                    })
+                    .catch((error) => console.log(error));
+            }
         } else {
             console.log("Preencha os campos")
         }
@@ -45,7 +67,7 @@ export function MarketForm() {
     const navigateToMarket = () => {
         // O caminho "/adicionar-produto" é um exemplo. Substitua pelo caminho desejado.
         navigate("/market");
-      };
+    };
 
     return (
         <div>
@@ -53,18 +75,18 @@ export function MarketForm() {
                 <form className='MarketForm'>
                     <input
                         type='text'
-                        value={productName}
-                        onChange={(e) => { setProductName(e.target.value) }}
+                        value={pName}
+                        onChange={(e) => { setPName(e.target.value) }}
                     />
                     <input
                         type='text'
-                        value={productDescription}
-                        onChange={(e) => { setProductDescription(e.target.value) }}
+                        value={pDescription}
+                        onChange={(e) => { setPDescription(e.target.value) }}
                     />
                     <input
                         type='number'
-                        value={productQuantity}
-                        onChange={(e) => { setProductQuantity(e.target.value) }}
+                        value={pQuantity}
+                        onChange={(e) => { setPQuantity(e.target.value) }}
                     />
                     <button type='button' onClick={saveData}>Gravar</button>
                     <button type='button' onClick={cleanData}>Limpar dados</button>
