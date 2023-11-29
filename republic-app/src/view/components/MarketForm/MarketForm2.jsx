@@ -12,9 +12,7 @@ export function MarketForm(props) {
     const [pDescription, setPDescription] = useState("");
     const [pQuantity, setPQuantity] = useState("");
     const navigate = useNavigate();
-    const location  = useLocation(
-
-    );
+    const state  = useLocation();
 
     function cleanData() {
         setPName("");
