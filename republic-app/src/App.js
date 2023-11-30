@@ -7,7 +7,6 @@ function App() {
     <div className="AppBody">
       <Sidebar />
       <div className="AppContent">
-
         <AppRoutes />
       </div>
     </div>

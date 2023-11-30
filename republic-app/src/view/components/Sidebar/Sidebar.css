@@ -4,6 +4,9 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
+    position:fixed;
+    /* Garante que a Sidebar esteja acima do conteúdo */
+    z-index:1;
 }
 .SidebarImageContainer{
     display: grid;

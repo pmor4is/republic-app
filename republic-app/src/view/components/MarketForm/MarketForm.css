@@ -4,7 +4,7 @@
 .MarketForm {
     display: flex;
     flex-direction: column;
-    margin: 10px;
+    margin: 50px;
 }
 .MarketForm input {
     display: flex;

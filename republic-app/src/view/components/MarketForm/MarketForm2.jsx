@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
 import './MarketForm.css';
 
 export function MarketForm(props) {
@@ -70,6 +69,7 @@ export function MarketForm(props) {
     return (
         <div>
             <div className='MarketForm-body'>
+                <Link to="#" onClick={() => window.history.back()}>Voltar</Link>
                 <form className='MarketForm'>
                     <input
                         type='text'

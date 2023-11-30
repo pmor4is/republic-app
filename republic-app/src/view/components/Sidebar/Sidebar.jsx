@@ -24,6 +24,5 @@ export function Sidebar() {
                 })}
             </ul>
         </div>
-
     )
 }

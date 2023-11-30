@@ -11,7 +11,10 @@
   flex-direction: column;
   background-color: bisque;
   width: 100%;
-  /* height: 100%; */
+  /* Adiciona margem à esquerda para a Sidebar */
+  margin-left: 20vw;
+  /* Evita rolagem horizontal da página */
+  overflow-x: hidden;
 }
 
 body {
