@@ -11,8 +11,8 @@ export function MarketForm(props) {
     const [pName, setPName] = useState("");
     const [pDescription, setPDescription] = useState("");
     const [pQuantity, setPQuantity] = useState("");
+    const {data}  = useLocation();
     const navigate = useNavigate();
-    const {state}  = useLocation();
 
     function cleanData() {
         setPName("");
@@ -21,12 +21,12 @@ export function MarketForm(props) {
     }
 
     useEffect(() => {
-        console.log( "state:",  state);
-        if (state.id > 0) {
+        console.log( "data:",  data);
+        if (data.id > 0) {
             console.log("veio com parametro");
-            setPName(state.productName);
-            setPDescription(state.productDescription);
-            setPQuantity(state.productQuantity);
+            setPName(data.productName);
+            setPDescription(data.productDescription);
+            setPQuantity(data.productQuantity);
         } else {
             console.log("veio sem parametro");
         }
@@ -36,8 +36,8 @@ export function MarketForm(props) {
     function saveData(event) {
         event.preventDefault();
         if (pName !== "" && pDescription !== "" && pQuantity !== "") {
-            if (state.id > 0) {
-                axios.put(url + props.route.params.id, {
+            if (data.id > 0) {
+                axios.put(url + data.id, {
                     productName: pName,
                     productDescription: pDescription,
                     productQuantity: (pQuantity ? pQuantity : null),
@@ -64,7 +64,6 @@ export function MarketForm(props) {
     }
 
     const navigateToMarket = () => {
-        // O caminho "/adicionar-produto" é um exemplo. Substitua pelo caminho desejado.
         navigate("/market");
     };
 
@@ -74,16 +73,19 @@ export function MarketForm(props) {
                 <form className='MarketForm'>
                     <input
                         type='text'
+                        placeholder='Produto'
                         value={pName}
                         onChange={(e) => { setPName(e.target.value) }}
                     />
                     <input
                         type='text'
+                        placeholder='Descrição'
                         value={pDescription}
                         onChange={(e) => { setPDescription(e.target.value) }}
                     />
                     <input
                         type='number'
+                        placeholder='Quantidade'
                         value={pQuantity}
                         onChange={(e) => { setPQuantity(e.target.value) }}
                     />

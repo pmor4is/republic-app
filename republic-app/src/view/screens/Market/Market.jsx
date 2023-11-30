@@ -4,31 +4,31 @@ import axios from 'axios';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
+import { Searchbar } from '../../components/SearchBar/Searchbar';
 
 
 export function Market() {
-  const navigate = useNavigate();
-
-  // Controladores da API
   const [market, setMarket] = useState([]);
-  const [id, setId] = useState("");
-  const [productName, setProductName] = useState("");
-  const [productDescription, setProductDescription] = useState("");
-  const [productQuantity, setProductQuantity] = useState("");
+  const [productName, setPName] = useState("");
+  const [productDescription, setPDescription] = useState("");
+  const [productQuantity, setPQuantity] = useState("");
+  const [query, setQuery] = useState("");
+  const [filteredMarket, setFilteredMarket] = useState([]);
 
-  // Controlador da opção de cadastrar ou adicionar
-  const [operation, setOperation] = useState("");
-
+  const navigate = useNavigate();
+  
   // Conexão com o backend criado na pasta node-server
   // URL cadastrada na Vercel
   const url = "https://republic-app.vercel.app/market/";
 
+  // Método GET
   useEffect(() => {
     axios.get(url)
       .then((response) => setMarket(response.data))
       .catch((error) => console.log(error))
   }, [url]);
 
+  // Método DELETE
   function deleteData(idToDelete) {
     axios.delete(url + idToDelete)
       .then(() => setMarket(market.filter((item) => item.id !== idToDelete)))
@@ -37,7 +37,6 @@ export function Market() {
 
   // Função para navegar para outra página ao clicar no botão
   function navigateToForm (id, productName, productDescription, productQuantity) {
-    // O caminho "/adicionar-produto" é um exemplo. Substitua pelo caminho desejado.
     navigate("/marketform", {
       state: {
         id: id,
@@ -45,7 +44,6 @@ export function Market() {
         productDescription: productDescription,
         productQuantity: productQuantity, 
       }
- 
     });
   };
 
@@ -57,13 +55,11 @@ export function Market() {
       </div>
       <div className='Market-inventory'>
         <h1>Inventário</h1>
+        <button onClick={() => navigateToForm(0, "", "", "")}>Adicionar novo produto</button>
+        <Searchbar market={market} query={query} setQuery={setQuery}/>
         <div>
-          {/* Botão para criar novos produtos ou voltar, com renderização condicional dos inputs*/}
-          {/* Adicionar novo produto */}
-          <button onClick={() => navigateToForm(0, "", "", "")}>Adicionar novo produto</button>
-
           {/* Mapeamento da lista de produtos, transformando em cards */}
-          {market ? market.map((item) => {
+          {market ? filteredMarket.map((item) => {
             return (
               <div className='ProductCard' key={item.id}>
                 <h1>{item.productname}</h1>
@@ -75,6 +71,7 @@ export function Market() {
                     <EditIcon />
                     Editar
                   </button>
+
                   <button onClick={(e) => deleteData(item.id)}>
                     <DeleteIcon />
                     Delete
