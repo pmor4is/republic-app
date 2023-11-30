@@ -1,22 +1,6 @@
-const { Client } = require('pg');
-const config = require("../config");
 const express = require('express');
 const router = express.Router();
-
-var conString = config.urlConnection;
-var client = new Client(conString);
-
-client.connect(function (err) {
-  if (err) {
-    return console.error('Unable to connect to database. Error: ', err);
-  }
-  client.query('SELECT NOW()', function (err, result) {
-    if (err) {
-      return console.error('Error executing the query. Error: ', err);
-    }
-    console.log(result.rows[0]);
-  });
-})
+const client = require('../database/database');
 
 
 router.get("/", (req, res) => {
@@ -60,6 +44,28 @@ router.get("/:id", (req, res) => {
     }
 });
 
+router.post("/", (req, res) => {
+    try {
+        console.log("Query POST requisition", req.body);
+        const { productName, productDescription, productQuantity } = req.body;
+        client.query(
+            "INSERT INTO market (productName, productDescription, productQuantity) VALUES ($1, $2, $3) RETURNING * ",
+            [productName, productDescription, productQuantity],
+            function (error, result) {
+                if (error) {
+                    return console.log("Error executing INSERT query. Error: " + error);
+                }
+                const { id } = result.rows[0];
+                res.setHeader("id", '${id}');
+                res.status(201).json(result.rows[0]);
+                console.log("Query INSERT successfully.");
+            }
+        );
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 router.delete("/:id", (req, res) => {
     try {
         console.log("Query DELETE/" + req.params.id + " requisition");
@@ -80,28 +86,6 @@ router.delete("/:id", (req, res) => {
                 console.log("Query DELETE successfully");
             }
         )
-    } catch (error) {
-        console.log(error);
-    }
-});
-
-router.post("/", (req, res) => {
-    try {
-        console.log("Query POST requisition", req.body);
-        const { productName, productDescription, productQuantity } = req.body;
-        client.query(
-            "INSERT INTO market (productName, productDescription, productQuantity) VALUES ($1, $2, $3) RETURNING * ",
-            [productName, productDescription, productQuantity],
-            function (error, result) {
-                if (error) {
-                    return console.log("Error executing INSERT query. Error: " + error);
-                }
-                const { id } = result.rows[0];
-                res.setHeader("id", '${id}');
-                res.status(201).json(result.rows[0]);
-                console.log("Query INSERT successfully.");
-            }
-        );
     } catch (error) {
         console.log(error);
     }
