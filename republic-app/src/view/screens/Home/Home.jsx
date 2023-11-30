@@ -8,8 +8,6 @@ export function Home() {
       <div className='Homepage-body'>
         {/* <Sidebar/> */}
         <Header />
-
-        <h1>lalala</h1>
         <div className="Homepage-content">
             <h1>Olá, Pedro</h1>
             <HomepageDashboard />

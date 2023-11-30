@@ -5,8 +5,6 @@ import './MarketForm.css';
 
 export function MarketForm(props) {
     const url = "https://republic-app.vercel.app/market/";
-
-    const [pmarket, setPMarket] = useState("");
     const [pName, setPName] = useState("");
     const [pDescription, setPDescription] = useState("");
     const [pQuantity, setPQuantity] = useState("");
