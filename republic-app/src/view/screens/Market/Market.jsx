@@ -9,6 +9,7 @@ import { Searchbar } from '../../components/SearchBar/Searchbar';
 
 export function Market() {
   const [market, setMarket] = useState([]);
+  const [id, setId] = useState([]);
   const [productName, setPName] = useState("");
   const [productDescription, setPDescription] = useState("");
   const [productQuantity, setPQuantity] = useState("");
@@ -56,10 +57,10 @@ export function Market() {
       <div className='Market-inventory'>
         <h1>Inventário</h1>
         <button onClick={() => navigateToForm(0, "", "", "")}>Adicionar novo produto</button>
-        <Searchbar market={market} query={query} setQuery={setQuery}/>
+        {/* <Searchbar market={market} query={query} setQuery={setQuery}/> */}
         <div>
           {/* Mapeamento da lista de produtos, transformando em cards */}
-          {market ? filteredMarket.map((item) => {
+          {market ? market.map((item) => {
             return (
               <div className='ProductCard' key={item.id}>
                 <h1>{item.productname}</h1>

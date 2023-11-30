@@ -11,7 +11,7 @@ export function MarketForm(props) {
     const [pName, setPName] = useState("");
     const [pDescription, setPDescription] = useState("");
     const [pQuantity, setPQuantity] = useState("");
-    const {data}  = useLocation();
+    const {state}  = useLocation();
     const navigate = useNavigate();
 
     function cleanData() {
@@ -21,12 +21,12 @@ export function MarketForm(props) {
     }
 
     useEffect(() => {
-        console.log( "data:",  data);
-        if (data.id > 0) {
+        console.log( "state:",  state);
+        if (state.id > 0) {
             console.log("veio com parametro");
-            setPName(data.productName);
-            setPDescription(data.productDescription);
-            setPQuantity(data.productQuantity);
+            setPName(state.productName);
+            setPDescription(state.productDescription);
+            setPQuantity(state.productQuantity);
         } else {
             console.log("veio sem parametro");
         }
@@ -36,8 +36,8 @@ export function MarketForm(props) {
     function saveData(event) {
         event.preventDefault();
         if (pName !== "" && pDescription !== "" && pQuantity !== "") {
-            if (data.id > 0) {
-                axios.put(url + data.id, {
+            if (state.id > 0) {
+                axios.put(url + state.id, {
                     productName: pName,
                     productDescription: pDescription,
                     productQuantity: (pQuantity ? pQuantity : null),
