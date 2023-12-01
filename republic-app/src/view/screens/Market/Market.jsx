@@ -5,7 +5,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from 'react-router-dom';
-import { Searchbar } from '../../components/SearchBar/Searchbar';
+// import { Searchbar } from '../../components/SearchBar/Searchbar';
 import { Header } from '../../components/Header/Header';
 
 export function Market() {
@@ -74,9 +74,18 @@ export function Market() {
               {market ? market.map((item) => {
                 return (
                   <div className='ProductCard' key={item.id}>
-                    <h1>{item.productname}</h1>
-                    <h2>Descrição: {item.productdescription}</h2>
-                    <h3>Quantidade: {item.productquantity}</h3>
+                    <div className='ProductInformation'>
+                      <div>
+                        <h1>{item.productname}</h1>
+                        <h2>{item.productdescription}</h2>
+
+                      </div>
+                      <div>
+                        <h3>Quantidade máxima</h3>
+                        <h3>Quantidade atual: {item.productquantity}</h3>
+
+                      </div>
+                    </div>
 
                     <div className='ProductCardButton'>
                       <button onClick={() => navigateToForm(item.id, item.productname, item.productdescription, item.productquantity)}>

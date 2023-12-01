@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import './MarketForm.css';
+import { Header } from '../Header/Header';
 
 export function MarketForm(props) {
     const url = "https://republic-app.vercel.app/market/";
@@ -64,10 +65,17 @@ export function MarketForm(props) {
         navigate("/market");
     };
 
+    function formLabel () {
+        if (state.id > 0) {
+            return "Editar produto";
+        } else return "Adicionar produto";
+    }
+
     return (
         <div>
             <div className='MarketForm-body'>
-                <Link to="#" onClick={() => window.history.back()}>Voltar</Link>
+                <Header />
+                <h1>{formLabel()}</h1>
                 <form className='MarketForm'>
                     <input
                         type='text'

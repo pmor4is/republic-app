@@ -49,19 +49,77 @@ export function Infrastructure() {
     <div className='Infrastructure-body'>
       <Header />
       <div className='Infrastructure-content'>
-        {infrastructure ? infrastructure.map((item) => {
-          return (
-            <div key={item.id}>
-              <h1> {item.repairname}</h1>
+        {/* Coluna da esquerda */}
+        <div className='column priority-1'>
+          <h1>Baixa prioridade</h1>
+          {infrastructure
+            .filter(item => item.repairpriority === 1)
+            .map(item => (
+              <div key={item.id} className='item-container'>
+                 <h1> {item.repairname}</h1>
               <h2>Descrição: {item.repairdescription}</h2>
               <h3>Local: {item.repairlocal}</h3>
               <h4>Prioridade: {getPriorityLabel(item.repairpriority)}</h4>
               <h4>Observações: {item.repairobservations}</h4>
               <h4>Data limite: {formatDate(item.repairlimitdate)}</h4>
-            </div>
-          );
-        }) : false}
+              </div>
+            ))}
+        </div>
+  
+        {/* Coluna do meio */}
+        <div className='column priority-2'>
+          <h1>Média prioridade</h1>
+          {infrastructure
+            .filter(item => item.repairpriority === 2)
+            .map(item => (
+              <div key={item.id} className='item-container'>
+                <h1> {item.repairname}</h1>
+              <h2>Descrição: {item.repairdescription}</h2>
+              <h3>Local: {item.repairlocal}</h3>
+              <h4>Prioridade: {getPriorityLabel(item.repairpriority)}</h4>
+              <h4>Observações: {item.repairobservations}</h4>
+              <h4>Data limite: {formatDate(item.repairlimitdate)}</h4>
+              </div>
+            ))}
+        </div>
+  
+        {/* Coluna da direita */}
+        <div className='column priority-3'>
+          <h1>Alta prioridade</h1>
+          {infrastructure
+            .filter(item => item.repairpriority === 3)
+            .map(item => (
+              <div key={item.id} className='item-container'>
+                <h1> {item.repairname}</h1>
+              <h2>Descrição: {item.repairdescription}</h2>
+              <h3>Local: {item.repairlocal}</h3>
+              <h4>Prioridade: {getPriorityLabel(item.repairpriority)}</h4>
+              <h4>Observações: {item.repairobservations}</h4>
+              <h4>Data limite: {formatDate(item.repairlimitdate)}</h4>
+              </div>
+            ))}
+        </div>
       </div>
     </div>
   );
+
+  // return (
+  //   <div className='Infrastructure-body'>
+  //     <Header />
+  //     <div className='Infrastructure-content'>
+  //       {infrastructure ? infrastructure.map((item) => {
+  //         return (
+  //           <div key={item.id}  className={`item-container priority-${item.repairpriority}`}>
+              // <h1> {item.repairname}</h1>
+              // <h2>Descrição: {item.repairdescription}</h2>
+              // <h3>Local: {item.repairlocal}</h3>
+              // <h4>Prioridade: {getPriorityLabel(item.repairpriority)}</h4>
+              // <h4>Observações: {item.repairobservations}</h4>
+              // <h4>Data limite: {formatDate(item.repairlimitdate)}</h4>
+  //           </div>
+  //         );
+  //       }) : false}
+  //     </div>
+  //   </div>
+  // );
 }

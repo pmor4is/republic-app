@@ -46,6 +46,12 @@ h4 {
     font-size: 2vh;
 }
 
+.ProductInformation {
+    display: flex;
+    justify-content: space-between;
+
+}
+
 .ProductCardButton {
     display: flex;
     justify-content: baseline;

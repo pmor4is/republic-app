@@ -1,3 +1,13 @@
-.Infraestructure {
+.Infrastructure-content {
     display: flex;
-}
+    gap: 10px; /* Adiciona espaço entre as colunas */
+  }
+  
+  .column {
+    flex: 1;
+  }
+  
+  .item-container {
+    margin-bottom: 10px; /* Adiciona margem na parte inferior de cada item */
+  }
+  

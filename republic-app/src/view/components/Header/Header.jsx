@@ -1,4 +1,4 @@
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import React from 'react';
 import './Header.css';
 import { Button } from '@mui/material';
@@ -15,7 +15,8 @@ export function Header() {
   return (
     <div className='HeaderBody'>
       {!isHomePage && (
-        <Button onClick={() => navigate(-1)}> {/* Usar navigate(-1) é uma maneira mais segura de navegar para trás */}
+        // Usar navigate(-1) é uma maneira mais segura de navegar para trás 
+        <Button onClick={() => navigate(-1)}> 
           <ArrowBackIcon />
         </Button>
       )}
