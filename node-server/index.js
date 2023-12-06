@@ -20,6 +20,7 @@ app.get("/", (req, res) => {
   res.send("OK - Server online");
 });
 
+
 app.listen(config.port, () =>
   console.log("Servidor funcionando na porta " + config.port)
 );

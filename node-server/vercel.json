@@ -9,7 +9,11 @@
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "index.js"
+            "dest": "index.js",
+            "/infrastructure/*": {
+                "methods": ["GET", "OPTIONS", "POST", "PUT", "DELETE"],
+                "headers": "Origin, X-Requested-With, Content-Type, Accept"
+            }
         }
     ]
 }
