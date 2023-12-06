@@ -1,0 +1,43 @@
+
+.ProductCard {
+    display: flex;
+    flex-direction: column;
+    background-color: #FFFFFF;
+    margin: 10px;
+    border-radius: 10px;
+    border: 1px solid;
+    box-shadow: 50px;
+    width: 60%;
+}
+.ProductCard h1 {
+    font-size: 2vh;
+    margin: 5px;
+    padding: 2px;
+}
+
+.ProductCard h2, h3, h4 {
+    margin: 5px;
+    padding: 2px;
+    font-size: 1.5vh;
+}
+
+.ProductInformation {
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.ProductCardButton {
+    display: flex;
+    justify-content: baseline;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 10px;
+    width: 20%;
+}
+
+.ProductCardButton button {
+    display: flex;
+    margin: 10px;
+    padding: 0;
+}

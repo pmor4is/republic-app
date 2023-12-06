@@ -7,6 +7,7 @@ import { Market } from '../view/screens/Market/Market.jsx';
 import { Tasks } from '../view/screens/Tasks/Tasks.jsx';
 import { Members } from '../view/screens/Members/Members.jsx';
 import { MarketForm } from '../view/components/MarketForm/MarketForm2.jsx';
+import { InfrastructureForm } from '../view/components/InfrastructureForm/InfrastructureForm.jsx';
 
 
 export function AppRoutes() {
@@ -20,6 +21,7 @@ export function AppRoutes() {
                     <Route path="/tasks" element={<Tasks />} />
                     <Route path="/members" element={<Members />} />
                     <Route path='/marketform' element={<MarketForm />} />
+                    <Route path='infrastructureform' element={<InfrastructureForm />} />
                 </Routes>
         </Router>
     )

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import './Market.css';
 import axios from 'axios';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from 'react-router-dom';
-// import { Searchbar } from '../../components/SearchBar/Searchbar';
+import { Searchbar } from '../../components/SearchBar/Searchbar';
 import { Header } from '../../components/Header/Header';
+import { Button } from '../../components/Button/Button';
+import { ProductCard } from '../../components/ProductCard/ProductCard';
 
 export function Market() {
   const [market, setMarket] = useState([]);
@@ -14,11 +14,10 @@ export function Market() {
   const [productName, setPName] = useState("");
   const [productDescription, setPDescription] = useState("");
   const [productQuantity, setPQuantity] = useState("");
-  // const [query, setQuery] = useState("");
-  const navigate = useNavigate();
-  // const [filteredMarket, setFilteredMarket] = useState([]);
+  const [query, setQuery] = useState("");
+  const [filteredMarket, setFilteredMarket] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
+  const navigate = useNavigate();
 
   // Conexão com o backend criado na pasta node-server
   // URL cadastrada na Vercel
@@ -28,11 +27,22 @@ export function Market() {
   useEffect(() => {
     axios.get(url)
       .then((response) => {
-        setMarket(response.data)
+        setMarket(response.data);
         setIsLoading(false);
       })
       .catch((error) => console.log(error))
   }, [url]);
+
+  // Método para filtrar o objeto para a barra de busca
+  function handleSearch(query) {
+    const filteredResults = market.filter((item) => {
+      return (
+        item.productname.toLowerCase().includes(query.toLowerCase()) ||
+        item.productdescription.toLowerCase().includes(query.toLowerCase())
+      );
+    });
+    setFilteredMarket(filteredResults);
+  }
 
   // Método DELETE
   function deleteData(idToDelete) {
@@ -55,60 +65,94 @@ export function Market() {
 
   return (
     <div className='Market-body'>
-      <Header />
-      <div className='Market-content'>
-      <div className='Market-toShopping'>
-        <h1>Lista de compras</h1>
-
-      </div>
-      <div className='Market-inventory'>
-        <h1>Inventário</h1>
-        <button onClick={() => navigateToForm(0, "", "", "")}>Adicionar novo produto</button>
-        {/* <Searchbar market={market} query={query} setQuery={setQuery}/> */}
-        <div>
-          {isLoading ?  
-              <CircularProgress className='circularProgress' color="inherit" />
-           : (
-            <div>
-              {/* Mapeamento da lista de produtos, transformando em cards */}
-              {market ? market.map((item) => {
-                return (
-                  <div className='ProductCard' key={item.id}>
-                    <div className='ProductInformation'>
-                      <div>
-                        <h1>{item.productname}</h1>
-                        <h2>{item.productdescription}</h2>
-
-                      </div>
-                      <div>
-                        <h3>Quantidade máxima</h3>
-                        <h3>Quantidade atual: {item.productquantity}</h3>
-
-                      </div>
-                    </div>
-
-                    <div className='ProductCardButton'>
-                      <button onClick={() => navigateToForm(item.id, item.productname, item.productdescription, item.productquantity)}>
-                        <EditIcon />
-                        Editar
-                      </button>
-
-                      <button onClick={(e) => deleteData(item.id)}>
-                        <DeleteIcon />
-                        Delete
-                      </button>
-                    </div>
-                  </div>
-                );
-              }) : false}
-
-            </div>
-          )}
+      <Header pageTitle={"Mercado"} />
+      <div className='Inputs'>
+        <div className='SearchInput'>
+          <Searchbar
+            query={query}
+            setQuery={setQuery}
+            onSearch={handleSearch}
+          />
+        </div>
+        <div className='ProductInput'>
+          <Button
+            buttonTitle={"Adicionar novo produto"}
+            // Passar função para imprimir relatório
+            onClickHandler={() => navigateToForm(0, "", "", "")}
+          />
 
         </div>
       </div>
+      {isLoading ?
+        <CircularProgress className='circularProgress' color="inherit" />
+        : (
+          <div className='Market-content'>
+            <div className='Market-toShopping'>
+              {/* Produtos com a quantidade igual a zero */}
+              <h1>Lista de compras</h1>
+              {filteredMarket.length > 0 ? (
+                filteredMarket.filter((item) => item.productquantity === 0).map((item) => {
+                  return (
+                    <ProductCard
+                      key={item.id}
+                      item={item}
+                      onDelete={() => deleteData(item.id)}
+                      onEdit={() => navigateToForm(item.id, item.productname, item.productdescription, item.productquantity)}
+                    />
+                  );
+                })
+              ) : (
+                market
+                  .filter((item) => item.productquantity === 0)
+                  .map((item) => {
+                    return (
+                      <ProductCard
+                        key={item.id}
+                        item={item}
+                        onDelete={() => deleteData(item.id)}
+                        onEdit={() => navigateToForm(item.id, item.productname, item.productdescription, item.productquantity)}
+                      />
+                    );
+                  })
+              )}
+            </div>
+
+            {/* Produtos com a quantidade maior que zero */}
+            <div className='Market-inventory'>
+              <h1>Inventário</h1>
+              <div>
+                <div>
+                  {/* Mapeamento da lista de produtos, transformando em cards */}
+                  {filteredMarket.length > 0 ? (
+                    filteredMarket.filter((item) => item.productquantity > 0).map((item) => {
+                      return (
+                        <ProductCard
+                          key={item.id}
+                          item={item}
+                          onDelete={() => deleteData(item.id)}
+                          onEdit={() => navigateToForm(item.id, item.productname, item.productdescription, item.productquantity)}
+                        />
+                      );
+                    })
+                  ) : (
+                    market
+                      .filter((item) => item.productquantity === 0)
+                      .map((item) => {
+                        return (
+                          <ProductCard
+                            key={item.id}
+                            item={item}
+                            onDelete={() => deleteData(item.id)}
+                            onEdit={() => navigateToForm(item.id, item.productname, item.productdescription, item.productquantity)}
+                          />
+                        );
+                      })
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
     </div>
-    </div>
-    
   )
 }

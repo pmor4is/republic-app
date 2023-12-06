@@ -1,13 +1,22 @@
-import React from 'react';
+import { React, useEffect, useState } from 'react';
+
 import "./Sidebar.css";
-import {SidebarData} from '../../../data/SidebarData';
+import { SidebarData } from '../../../data/SidebarData';
 import ViracoposLogo from '../../assets/img/viracopos-logo.svg';
 
 export function Sidebar() {
+    const [image, setImage] = useState(null);
+    useEffect(() => {
+        const img = new Image();
+        img.src = ViracoposLogo;
+        img.onload = () => setImage(img);
+    }, []);
+
+
     return (
         <div className="Sidebar">
             <div className='SidebarImageContainer'>
-                <img className='SidebarImage' src={ViracoposLogo} alt='Republic logo'></img>
+                {image && <img className='SidebarImage' src={image.src} alt='Republic logo'></img>}
             </div>
             <ul className='SidebarList'>
                 {SidebarData.map((value, key) => {

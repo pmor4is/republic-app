@@ -1,29 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import './Searchbar.css';
+import SearchIcon from '@mui/icons-material/Search';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
 
-export function Searchbar({ market, query, setQuery }) {
-    const [filteredMarket, setFilteredMarket] = useState([]);
+export function Searchbar({ query, setQuery, onSearch }) {
+  useEffect(() => {
+    onSearch(query);
+  }, [query, onSearch]);
 
-    useEffect(() => {
-        const filteredResults = market.filter((item) => {
-            return (
-                item.productname.toLowerCase().includes(query.toLowerCase()) ||
-                item.productdescription.toLowerCase().includes(query.toLowerCase())
-            );
-        });
-
-        setFilteredMarket(filteredResults);
-        console.log(filteredResults); // Adicione logs para debugar
-    }, [query, market]); // Remova 'market' da dependência do useEffect
-
-    return (
-        <div>
-            <input
-                className='SearchBar'
-                type='text'
-                placeholder='Pesquisar...'
-                value={query}
-                onChange={e => setQuery(e.target.value)}
-            />
-        </div>
-    )
+  return (
+    <div>
+      <TextField
+        className='SearchBar'
+        type='text'
+        placeholder='Pesquisar...'
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start" className='Searchbar-input'>
+              <SearchIcon />
+            </InputAdornment>
+          ),
+        }}
+      />
+    </div>
+  );
 }

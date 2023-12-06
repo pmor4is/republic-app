@@ -9,7 +9,8 @@ export function MarketForm(props) {
     const [pName, setPName] = useState("");
     const [pDescription, setPDescription] = useState("");
     const [pQuantity, setPQuantity] = useState("");
-    const {state}  = useLocation();
+
+    const { state } = useLocation();
     const navigate = useNavigate();
 
     function cleanData() {
@@ -19,7 +20,7 @@ export function MarketForm(props) {
     }
 
     useEffect(() => {
-        console.log( "state:",  state);
+        console.log("state:", state);
         if (state.id > 0) {
             console.log("veio com parametro");
             setPName(state.productName);
@@ -28,7 +29,6 @@ export function MarketForm(props) {
         } else {
             console.log("veio sem parametro");
         }
-        
     }, [])
 
     function saveData(event) {
@@ -65,7 +65,7 @@ export function MarketForm(props) {
         navigate("/market");
     };
 
-    function formLabel () {
+    function formLabel() {
         if (state.id > 0) {
             return "Editar produto";
         } else return "Adicionar produto";
@@ -95,8 +95,16 @@ export function MarketForm(props) {
                         value={pQuantity}
                         onChange={(e) => { setPQuantity(e.target.value) }}
                     />
-                    <button type='button' onClick={saveData}>Gravar</button>
-                    <button type='button' onClick={cleanData}>Limpar dados</button>
+                    <button
+                        className='ButtonForm-style'
+                        type='button'
+                        onClick={saveData}>
+                        Gravar</button>
+                    <button
+                        className='ButtonForm-style'
+                        type='button'
+                        onClick={cleanData}>
+                        Limpar dados</button>
                 </form>
             </div>
         </div>

@@ -6,14 +6,18 @@
 
     display: flex;
     flex-direction: column;
-    background-color: aqua;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-
+.Market-body h1 {
+    font-size: 2.5vh;
+}
+.Market-body h2, h3, h4 {
+    font-size: 1.5vh;
+}
 .Market-content {
-    padding: 10px;
+    padding-inline: 10px;
     display: flex;
 
-    background-color: aqua;
     height: 100%;
     justify-content: center;
 }
@@ -26,57 +30,25 @@
     flex: 1;
 }
 
-.ProductCard {
-    display: flex;
-    flex-direction: column;
-    background-color: beige;
-    margin: 10px;
-    border-radius: 10px;
-    border: 1px solid;
-    box-shadow: 50px;
-    width: 60%;
-}
-
-.ProductCard h1,
-h2,
-h3,
-h4 {
-    margin: 5px;
-    padding: 2px;
-    font-size: 2vh;
-}
-
-.ProductInformation {
-    display: flex;
-    justify-content: space-between;
-
-}
-
-.ProductCardButton {
-    display: flex;
-    justify-content: baseline;
-    margin: 5px;
-    padding: 5px;
-    border-radius: 10px;
-    width: 20%;
-}
-
-.ProductCardButton button {
-    display: flex;
-    margin: 10px;
-    padding: 0;
-}
-
 .circularProgress {
     display: flex;
-    flex-direction: column;
     align-items: center;
     padding: 5vh;
 }
 
-.SearchBar {
+.Inputs {
     display: flex;
-    align-self: center;
+    justify-content: space-between;
     padding: 10px;
-    margin: 10px;
+}
+.SearchInput {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    min-width: 800px;
+}
+.ProductInput {
+    display: flex;
+    justify-content: center;
+    align-self: center;
 }

@@ -1,13 +1,35 @@
+.Infrastructure-body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.Infrastructure-body h1 {
+  font-size: 2.5vh;
+  margin: 10px;
+}
+
+.Infrastructure-body h2, h3, h4 {
+  font-size: 1.5vh;
+  margin: 5px;
+}
+
 .Infrastructure-content {
-    display: flex;
-    gap: 10px; /* Adiciona espaço entre as colunas */
-  }
-  
-  .column {
-    flex: 1;
-  }
-  
-  .item-container {
-    margin-bottom: 10px; /* Adiciona margem na parte inferior de cada item */
-  }
-  
+  display: flex;
+  /* Adiciona espaço entre as colunas */
+  gap: 1vw; 
+}
+
+.column {
+  flex: 1;
+}
+
+.item-container {
+  /* Adiciona margem na parte inferior de cada item */
+  margin-bottom: 10px; 
+}

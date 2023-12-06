@@ -1,7 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import { React, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Infrastructure.css';
 import { Header } from '../../components/Header/Header';
+import { Button } from '../../components/Button/Button';
+import { Searchbar } from '../../components/SearchBar/Searchbar';
+import { InfrastructureCard } from '../../components/InfrastructureCard/InfrastructureCard';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export function Infrastructure() {
   const [infrastructure, setInfrastructure] = useState([]);
@@ -12,114 +17,179 @@ export function Infrastructure() {
   const [repairPriority, setRepairPriority] = useState("");
   const [repairObservations, setRepairObservations] = useState("");
   const [repairLimitDate, setRepairLimitDate] = useState("");
+  const [query, setQuery] = useState("");
+  const [filteredInfrastructure, setFilteredInfrastructure] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
+
 
   const url = "https://republic-app.vercel.app/infrastructure/";
 
   useEffect(() => {
-    fetch(url)
-      .then((fetchResponse) => fetchResponse.json())
-      .then((jsonResponse) => setInfrastructure(jsonResponse))
+    axios.get(url)
+      .then((response) => {
+        setInfrastructure(response.data);
+        setIsLoading(false);
+      })
       .catch((error) => console.log(error))
   }, [url]);
 
-  // Função para associar a cada int, sua prioridade específica.
-  function getPriorityLabel(repairPriority) {
-    if (repairPriority === 1) {
-      return "Leve";
-    } else if (repairPriority === 2) {
-      return "Média";
-    } else if (repairPriority === 3) {
-      return "Alta";
-    }
-    return "";
+  function deleteData(idToDelete) {
+    axios.delete(url + idToDelete)
+      .then(() => setInfrastructure(infrastructure.filter((item) => item.id !== idToDelete)))
+      .catch((error) => console.log(error));
   }
 
-  // Função para formatar a data no padrão brasileiro sem horário
-  function formatDate(dataString) {
-    // Verifica se for cadastrada data, para poder formatar
-    if (dataString) {
-      const data = new Date(dataString);
-      return data.toLocaleDateString('pt-BR');
-    }
-    // Se não existir data definida, retorna essa mensagem
-    return "Sem data definida"; 
+  function handleSearch(query) {
+    const filteredResults = infrastructure.filter((item) => {
+      return (
+        item.repairname.toLowerCase().includes(query.toLowerCase()) ||
+        item.repairdescription.toLowerCase().includes(query.toLowerCase())
+      );
+    });
+    setFilteredInfrastructure(filteredResults);
   }
+
+  function navigateToInfrastructureForm(id, repairName, repairDescription, repairLocal, repairPriority, repairObservations, repairLimitDate) {
+    navigate("/infrastructureform", {
+      state: {
+        id: id,
+        repairName: repairName,
+        repairDescription: repairDescription,
+        repairLocal: repairLocal,
+        repairPriority: repairPriority,
+        repairObservations: repairObservations,
+        repairLimitDate: repairLimitDate,
+      }
+    });
+  };
 
   return (
     <div className='Infrastructure-body'>
-      <Header />
-      <div className='Infrastructure-content'>
-        {/* Coluna da esquerda */}
-        <div className='column priority-1'>
-          <h1>Baixa prioridade</h1>
-          {infrastructure
-            .filter(item => item.repairpriority === 1)
-            .map(item => (
-              <div key={item.id} className='item-container'>
-                 <h1> {item.repairname}</h1>
-              <h2>Descrição: {item.repairdescription}</h2>
-              <h3>Local: {item.repairlocal}</h3>
-              <h4>Prioridade: {getPriorityLabel(item.repairpriority)}</h4>
-              <h4>Observações: {item.repairobservations}</h4>
-              <h4>Data limite: {formatDate(item.repairlimitdate)}</h4>
-              </div>
-            ))}
+      <Header pageTitle={"Infraestrutura"} />
+
+      <div className='Inputs'>
+        <div className='SearchInput'>
+          <Searchbar
+            query={query}
+            setQuery={setQuery}
+            onSearch={handleSearch} />
         </div>
-  
-        {/* Coluna do meio */}
-        <div className='column priority-2'>
-          <h1>Média prioridade</h1>
-          {infrastructure
-            .filter(item => item.repairpriority === 2)
-            .map(item => (
-              <div key={item.id} className='item-container'>
-                <h1> {item.repairname}</h1>
-              <h2>Descrição: {item.repairdescription}</h2>
-              <h3>Local: {item.repairlocal}</h3>
-              <h4>Prioridade: {getPriorityLabel(item.repairpriority)}</h4>
-              <h4>Observações: {item.repairobservations}</h4>
-              <h4>Data limite: {formatDate(item.repairlimitdate)}</h4>
-              </div>
-            ))}
-        </div>
-  
-        {/* Coluna da direita */}
-        <div className='column priority-3'>
-          <h1>Alta prioridade</h1>
-          {infrastructure
-            .filter(item => item.repairpriority === 3)
-            .map(item => (
-              <div key={item.id} className='item-container'>
-                <h1> {item.repairname}</h1>
-              <h2>Descrição: {item.repairdescription}</h2>
-              <h3>Local: {item.repairlocal}</h3>
-              <h4>Prioridade: {getPriorityLabel(item.repairpriority)}</h4>
-              <h4>Observações: {item.repairobservations}</h4>
-              <h4>Data limite: {formatDate(item.repairlimitdate)}</h4>
-              </div>
-            ))}
+        <div className='ProductInput'>
+          <Button
+            buttonTitle={"Adicionar novo conserto"}
+            // Passar função para imprimir relatório
+            onClickHandler={() => navigateToInfrastructureForm(0, "", "", "", "", "", "")}
+          />
         </div>
       </div>
+
+      {isLoading ?
+        <CircularProgress className="circularProgress" color="inherit" /> : (
+          <div className='Infrastructure-content'>
+            {/* Coluna da esquerda */}
+            <div className='column priority-1'>
+              <h1>Baixa prioridade</h1>
+
+              {filteredInfrastructure.length > 0 ? (
+                filteredInfrastructure.filter((item) => item.repairpriority === 1).map((item) => {
+                  return (
+                    <InfrastructureCard
+                      key={item.id}
+                      item={item}
+                      onDelete={() => deleteData(item.id)}
+                      onEdit={() => navigateToInfrastructureForm(
+                        item.id,
+                        item.repairname,
+                        item.repairdescription,
+                        item.repairlocal,
+                        item.repairpriority,
+                        item.repairobservations,
+                        item.repairlimitdate,
+                      )}
+                    />
+                  );
+                })
+              ) : (
+                infrastructure
+                  .filter((item) => item.repairpriority === 1)
+                  .map((item) => {
+                    return (
+                      <InfrastructureCard
+                        key={item.id}
+                        item={item}
+                        onDelete={() => deleteData(item.id)}
+                      // onEdit={() => navigateToForm(item.id, item.productname, item.productdescription, item.productquantity)}
+                      />
+                    );
+                  })
+              )}
+            </div>
+
+            {/* Coluna do meio */}
+            <div className='column priority-2'>
+              <h1>Média prioridade</h1>
+
+              {filteredInfrastructure.length > 0 ? (
+                filteredInfrastructure.filter((item) => item.repairpriority === 2).map((item) => {
+                  return (
+                    <InfrastructureCard
+                      key={item.id}
+                      item={item}
+                      onDelete={() => deleteData(item.id)}
+                    // onEdit={() => navigateToForm(item.id, item.repairname, item.productdescription, item.productquantity)}
+                    />
+                  );
+                })
+              ) : (
+                infrastructure
+                  .filter((item) => item.repairpriority === 2)
+                  .map((item) => {
+                    return (
+                      <InfrastructureCard
+                        key={item.id}
+                        item={item}
+                        onDelete={() => deleteData(item.id)}
+                      // onEdit={() => navigateToForm(item.id, item.productname, item.productdescription, item.productquantity)}
+                      />
+                    );
+                  })
+              )}
+            </div>
+
+            {/* Coluna da direita */}
+            <div className='column priority-3'>
+              <h1>Alta prioridade</h1>
+
+              {filteredInfrastructure.length > 0 ? (
+                filteredInfrastructure.filter((item) => item.repairpriority === 3).map((item) => {
+                  return (
+                    <InfrastructureCard
+                      key={item.id}
+                      item={item}
+                      onDelete={() => deleteData(item.id)}
+                    // onEdit={() => navigateToForm(item.id, item.repairname, item.productdescription, item.productquantity)}
+                    />
+                  );
+                })
+              ) : (
+                infrastructure
+                  .filter((item) => item.repairpriority === 3)
+                  .map((item) => {
+                    return (
+                      <InfrastructureCard
+                        key={item.id}
+                        item={item}
+                        onDelete={() => deleteData(item.id)}
+                      // onEdit={() => navigateToForm(item.id, item.productname, item.productdescription, item.productquantity)}
+                      />
+                    );
+                  })
+              )}
+            </div>
+          </div>
+        )
+      }
     </div>
   );
-
-  // return (
-  //   <div className='Infrastructure-body'>
-  //     <Header />
-  //     <div className='Infrastructure-content'>
-  //       {infrastructure ? infrastructure.map((item) => {
-  //         return (
-  //           <div key={item.id}  className={`item-container priority-${item.repairpriority}`}>
-              // <h1> {item.repairname}</h1>
-              // <h2>Descrição: {item.repairdescription}</h2>
-              // <h3>Local: {item.repairlocal}</h3>
-              // <h4>Prioridade: {getPriorityLabel(item.repairpriority)}</h4>
-              // <h4>Observações: {item.repairobservations}</h4>
-              // <h4>Data limite: {formatDate(item.repairlimitdate)}</h4>
-  //           </div>
-  //         );
-  //       }) : false}
-  //     </div>
-  //   </div>
-  // );
 }

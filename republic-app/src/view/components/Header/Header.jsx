@@ -4,7 +4,7 @@ import './Header.css';
 import { Button } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-export function Header() {
+export function Header({pageTitle}) {
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -16,11 +16,12 @@ export function Header() {
     <div className='HeaderBody'>
       {!isHomePage && (
         // Usar navigate(-1) é uma maneira mais segura de navegar para trás 
-        <Button onClick={() => navigate(-1)}> 
-          <ArrowBackIcon />
+        <Button className='Back-Button' onClick={() => navigate(-1)}> 
+          <ArrowBackIcon sx={{ color: 'white' }} />
         </Button>
       )}
-        <h1>Header</h1>
+        <h1 className='PageTitle'>{pageTitle}</h1>
+        
     </div>
   )
 }

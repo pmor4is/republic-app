@@ -9,15 +9,21 @@
 .AppContent{
   display: flex;
   flex-direction: column;
-  background-color: bisque;
   width: 100%;
   /* Adiciona margem à esquerda para a Sidebar */
   margin-left: 20vw;
   /* Evita rolagem horizontal da página */
   overflow-x: hidden;
+  background-color: lightgray;
+  
 }
 
 body {
   margin: 0;
   padding: 0;
 }
+/* Configuração do indicador de progresso para todo o aplicativo */
+.circularProgress {
+  align-self: center;
+}
+

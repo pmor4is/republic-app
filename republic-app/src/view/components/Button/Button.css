@@ -1,0 +1,11 @@
+.Button-style {
+    display: flex;
+    background-color: #e4e436;
+    border-radius: 10px;
+    padding: 1vh;
+    margin: 1vh;
+    font-size: 2vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-wrap: wrap;
+    cursor: pointer;
+}
