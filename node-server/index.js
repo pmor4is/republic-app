@@ -4,17 +4,9 @@ const bodyparser = require('body-parser');
 const config = require("./config");
 const client = require('./database/database.js');
 
-const corsOptions = {
-  origin: '*',  // ou a origem específica que você deseja permitir
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  allowedHeaders: 'Content-Type,Authorization',
-};
-
-app.use(cors(corsOptions));
-
-
 const app = express();
 app.use(express.json());
+app.use(cors());
 app.use(bodyparser.json());
 
 const marketRoute = require('./routes/market');
